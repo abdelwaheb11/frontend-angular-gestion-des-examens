@@ -1,0 +1,39 @@
+
+<div class="container my-5 p-3">
+    <div class="card shadow">
+        <div class="card-body">
+          <h1 class="text-center fw-bold mb-3">Gestion des Matieres</h1>
+          <div *ngIf="authiservice.isAdmin()">
+            <app-add-update-matiere [matiere]="matiere" [enAjouter]="enAjouter" (matiereAction)= "matiereAction(this.matiere)" >
+            </app-add-update-matiere>
+          </div>
+          <div class="d-flex justify-content-end">
+            <form class="w-25">
+              <input (keyup)="getByLabelle()" type="text" name="search" placeholder="Rechercher par labelle de matiere..." [(ngModel)]="search" class="form-control mb-2 mt-5">
+            </form>
+          </div>
+            <table class="table table-striped mb-4">
+                <thead>
+                    <tr>
+                      <th scope="col">Id</th>
+                      <th scope="col">Labelle</th>
+                      <th scope="col">Coffetion</th>
+                      <th *ngIf="authiservice.isAdmin()" scope="col">Action</th>
+                    </tr >
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let m of matieres">
+                      <th scope="row">{{m.id}}</th>
+                      <td>{{m.labelle}}</td>
+                      <td>{{m.coffetion}}</td>
+                      <td *ngIf="authiservice.isAdmin()">
+                        <button (click)="edit(m)"  class="btn fw-bold text-black btn-warning me-3">edit</button>
+                        <button (click)="delete(m.id,m.labelle)"  class="btn fw-bold text-black btn-danger">delete</button>
+                      </td>
+                    </tr>
+                  </tbody> 
+            </table>
+        </div>
+    </div>
+</div>
+

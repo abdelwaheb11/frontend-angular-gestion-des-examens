@@ -1,0 +1,38 @@
+
+<div class="container my-5 p-3">
+    <div class="card shadow">
+        <div class="card-body">
+            <h1 class="text-center fw-bold">Rechercher Examens par Nom des Etudiants</h1>
+            <form class="d-flex justify-content-end gap-1 mb-2">
+                <input type="text" (keyup)="search()" [(ngModel)]="nom" name="nom" placeholder="Rechercher par nom des etudiants" class="form-control w-25">
+            </form>
+            <table class="table table-striped mb-4">
+                <thead>
+                    <tr>
+                      <th scope="col">Id</th>
+                      <th scope="col">Edudiant</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Note</th>
+                      <th scope="col">Matiere</th>
+                      <th scope="col" *ngIf="authiservice.isAdmin()">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let e of examens">
+                      <th scope="row">{{e.id}}</th>
+                      <td>{{e.etudiant}}</td>
+                      <td>{{e.date}}</td>
+                      <td>{{e.note}}</td>
+                      <td>{{e.matiere.labelle}}</td>
+                      <td *ngIf="authiservice.isAdmin()">
+                        <a routerLink="/editExamen/{{e.id}}" class="btn fw-bold text-black btn-warning me-3">edit</a>
+                        <button (click)="delete(e.id,e.etudiant)" class="btn fw-bold text-black btn-danger">delete</button>
+                      </td>
+                    </tr>
+                  </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

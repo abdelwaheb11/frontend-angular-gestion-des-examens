@@ -1,0 +1,24 @@
+<form method="post" (submit)="action()">
+    <div class="mb-3">
+        <label for="etudiant" class="form-label">Etudiant</label>
+        <input [(ngModel)]="examen.etudiant" name="etudiant" type="text" class="form-control" id="etudiant" placeholder="Nom de l'etudiant" required minlength="3">
+    </div>
+    <div class="mb-3">
+        <label for="date" class="form-label">Date de l'examen</label>
+        <input [(ngModel)]="examen.date" name="date" type="date" class="form-control" id="date" required (change)="verif_date()">
+        <span *ngIf="!date_isValid" class="text-danger fw-bold">Selectionnez une date valid! (passe ou present)</span>
+    </div>
+    <div class="mb-3">
+        <label for="note" class="form-label">Note</label>
+        <input [(ngModel)]="examen.note" name="note" type="number" class="form-control" id="note" placeholder="Note" required min="0" max="20">
+    </div>
+    <div class="mb-3">
+        <label for="matiere" class="form-label">Matiere</label>
+        <select class="form-select" id="matiere" name="matiere" required [(ngModel)]="idMat" (change)="changeMatiere()">
+            <option value="0" selected>Selectionnez une matiere</option>
+            <option *ngFor="let m of matieres" value="{{m.id}}">{{m.labelle}}</option>
+        </select>
+        <span *ngIf="!matiere_isValid" class="text-danger fw-bold">Selectionnez une matiere valid!</span>
+    </div>
+    <input type="submit" class="btn btn-primary mt-5 fw-bold w-100" value="{{etat}}">
+</form>
