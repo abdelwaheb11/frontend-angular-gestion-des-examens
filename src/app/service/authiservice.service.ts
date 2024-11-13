@@ -15,6 +15,7 @@ export class AuthiserviceService {
   apiURL: string = 'http://localhost:8081/users';
   token!:string;
   private helper = new JwtHelperService();
+  public regitredUser : User = new User();
 
 
   constructor(private router: Router , private http: HttpClient ) { }
@@ -44,6 +45,9 @@ export class AuthiserviceService {
     return this.token;
   }
 
+  registerUser(user :User){
+    return this.http.post<User>(this.apiURL+'/register', user,{observe:'response'});
+  }
 
   decodeJWT(){ 
     if (this.token == undefined)
@@ -64,6 +68,17 @@ export class AuthiserviceService {
     if (!this.roles) //this.roles== undefiened
       return false;
     return (this.roles.indexOf('ADMIN') >-1);
+  }
+
+  setRegistredUser(user : User){
+    this.regitredUser=user;
+  }
+  getRegistredUser(){
+    return this.regitredUser;
+  }
+
+  validateEmail(code : string){
+    return this.http.get<User>(this.apiURL+'/verifyEmail/'+code);
   }
 
   

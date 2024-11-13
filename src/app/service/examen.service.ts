@@ -13,7 +13,7 @@ export class ExamenService {
   constructor( private http:HttpClient , private authService : AuthiserviceService) {}
 
   getAll():Observable<Examen[]>{
-    return this.http.get<Examen[]>(`${this.urlapi}/all`)
+    return this.http.get<Examen[]>(`${this.urlapi}/all`,this.setHeadres())
   }
 
   setHeadres(){
@@ -28,7 +28,7 @@ export class ExamenService {
   }
 
   getById(id:number):Observable<Examen>{
-    return this.http.get<Examen>(`${this.urlapi}/getById/${id}`);
+    return this.http.get<Examen>(`${this.urlapi}/getById/${id}`,this.setHeadres());
   }
 
   create(ex:Examen):Observable<Examen>{
@@ -36,11 +36,14 @@ export class ExamenService {
   }
 
   delete(id:number):Observable<any>{
-    return this.http.delete(`${this.urlapi}/delete/${id}`,this.setHeadres())
+    return this.http.delete(`${this.urlapi}/delete/${id}`, this.setHeadres())
   }
 
-  update(ex : Examen):Observable<Examen>{
-    return this.http.put<Examen>(`${this.urlapi}/update`,{id:ex.id, etudiant: ex.etudiant, note: ex.note, date: ex.date , matiere:ex.matiere },this.setHeadres())
+  update(ex : Examen , files : File[]):Observable<Examen>{
+    const imageFormData = new FormData();
+    files.forEach(file=>imageFormData.append('images', file))
+    imageFormData.append('examen', new Blob([JSON.stringify(ex)], { type: 'application/json' }));
+    return this.http.put<Examen>(`${this.urlapi}/update`, imageFormData ,this.setHeadres())
   }
 
   getExamensParMatiere(idMat:Number):Observable<Examen[]>{

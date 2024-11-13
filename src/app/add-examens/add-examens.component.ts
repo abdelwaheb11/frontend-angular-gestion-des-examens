@@ -14,22 +14,12 @@ import { FormExamenComponent } from '../form-examen/form-examen.component';
   styleUrl: './add-examens.component.css'
 })
 export class AddExamensComponent implements OnInit {
-  action:string='Ajouter';
-  matieres !: Matiere[]
-  matiere_isValid:boolean=true
-  examen:Examen=new Examen()
-  constructor( private matiereservice:MatiereService ){
 
-  }
+  constructor( ){}
 
-  add(){
-    console.log(this.examen)
-  }
+  
   
   ngOnInit(): void {
-      this.matiereservice.getAll().subscribe(
-        res=>this.matieres=res,
-        error=>console.error(error.message)
-      )
+      
   }
 }

@@ -20,5 +20,27 @@
         </select>
         <span *ngIf="!matiere_isValid" class="text-danger fw-bold">Selectionnez une matiere valid!</span>
     </div>
+    <div class="mb-3" *ngIf="etat==='Modifier'">
+        <div *ngIf="examen.images && examen.images.length<=0" class="text-secondary text-center">
+            Aucune image ajouter pour cet examen.
+        </div>
+        <div *ngIf="examen.images && examen.images.length>0" class="row">
+            <div *ngFor="let img of examen.images" class="col-md-3 box-img  " (click)="deleteImageExamen(img.idImage)">
+                <img  [src]="img.imageStr" alt="" class="img-thumbnail" style="width: 100%;height: 100%;">
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="image" class="btn btn-outline-secondary fw-bold">
+            Selectionner les images de l'examen
+        </label>
+        <input type="file" name="image" id="image" accept="image/*" multiple style="display: none;" (change)="onImageUpload($event)">
+        <div class="mt-2 row" *ngIf="imagePaths && imagePaths.length">
+            <div *ngFor="let path of imagePaths" (click)="deleteImage(path)"  class="col-md-3 box-img">
+                <img [src]="path" alt="..." class="img-thumbnail " style="width: 100%;height: 100%;">
+            </div>
+        </div>   
+    </div> 
+      
     <input type="submit" class="btn btn-primary mt-5 fw-bold w-100" value="{{etat}}">
 </form>

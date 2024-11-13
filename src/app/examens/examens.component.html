@@ -7,23 +7,31 @@
                 <thead>
                     <tr>
                       <th scope="col">Id</th>
+                      <th scope="col">Images</th>
                       <th scope="col">Edudiant</th>
                       <th scope="col">Date</th>
                       <th scope="col">Note</th>
                       <th scope="col">Matiere</th>
-                      <th scope="col" *ngIf="authiservice.isAdmin()">Action</th>
+                      <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let e of examens">
                       <th scope="row">{{e.id}}</th>
+                      <th scope="row" *ngIf="e.images.length > 0">
+                        <img [src]="e.images[0].imageStr" alt="" width="50" height="50">
+                      </th>
+                      <th scope="row" *ngIf="e.images.length <= 0">
+                        <img [src]="imageNotFound" alt="" width="50" height="50">
+                      </th>
                       <td>{{e.etudiant}}</td>
                       <td>{{e.date}}</td>
                       <td>{{e.note}}</td>
                       <td>{{e.matiere.labelle}}</td>
-                      <td *ngIf="authiservice.isAdmin()">
-                        <a  routerLink="/editExamen/{{e.id}}" class="btn fw-bold text-black btn-warning me-3">edit</a>
-                        <button (click)="delete(e.id,e.etudiant)" class="btn fw-bold text-black btn-danger">delete</button>
+                      <td  >
+                        <a  routerLink="/viewExamen/{{e.id}}" class="btn fw-bold text-black btn-success me-3">Consulter</a>
+                        <a *ngIf="authiservice.isAdmin()"  routerLink="/editExamen/{{e.id}}" class="btn fw-bold text-black btn-warning me-3">Edit</a>
+                        <button *ngIf="authiservice.isAdmin()" (click)="delete(e.id,e.etudiant)" class="btn fw-bold text-black btn-danger">Delete</button>
                       </td>
                     </tr>
                   </tbody> 

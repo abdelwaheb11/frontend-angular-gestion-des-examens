@@ -6,6 +6,7 @@ import Matiere from '../model/model.matiere';
 import { MatiereService } from '../service/matiere.service';
 import { ExamenService } from '../service/examen.service';
 import { Router } from '@angular/router';
+import { ImageService } from '../service/image.service';
 
 @Component({
   selector: 'app-form-examen',
@@ -22,7 +23,12 @@ export class FormExamenComponent implements OnInit{
   matiere_isValid:boolean=true;
   date_isValid:boolean=true;
   matieres!:Matiere[];
-  constructor(private matiereservice:MatiereService , private examenservice:ExamenService , private router : Router){}
+
+  uploadedImages: File[] = [];
+  imagePaths: string[] = [];
+
+  constructor(private matiereservice:MatiereService , private examenservice:ExamenService ,
+     private imageservice:ImageService , private router : Router , private imageService : ImageService){}
 
   changeMatiere(){
     if(this.idMat==0){
@@ -46,14 +52,20 @@ export class FormExamenComponent implements OnInit{
   }
   add(){
     this.examenservice.create(this.examen).subscribe(
-      res=>this.router.navigate(["/"]),
+      res=>{
+        this.imageservice.uploadImagesExamen(this.uploadedImages, res.id).subscribe((response: any) => { })
+        this.router.navigate(["/"])
+      },
       error=>console.error(error)
     )
   }
 
   edit(){
-    this.examenservice.update(this.examen).subscribe(
-      res=>this.router.navigate(["/"]),
+    
+    this.examenservice.update(this.examen ,this.uploadedImages).subscribe(
+      res=> {
+        this.router.navigate(["/"])
+      },
       error=>console.error(error)
     )
   }
@@ -63,6 +75,39 @@ export class FormExamenComponent implements OnInit{
       this.id ? this.edit() : this.add()
     }
   }
+
+  onImageUpload(event: any) {
+    
+    this.uploadedImages = Array.from(event.target.files);
+    this.imagePaths = [];
+
+    for (let file of this.uploadedImages) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            this.imagePaths.push(reader.result as string);
+        };
+    }
+  }
+  deleteImage(name: string) {
+    const index = this.imagePaths.findIndex(e => e === name);
+    if (index !== -1) {
+        this.imagePaths.splice(index, 1);
+    }
+  }
+
+  deleteImageExamen(id : number){
+    let v =confirm("vous-etez sure de supprimer l'image ?");
+    if(v){
+      this.imageservice.deleteImageById(id).subscribe(
+        res=> {
+          let x = this.examen.images.findIndex(e=>e.idImage===id);
+          this.examen.images.splice(x,1)
+        }
+      )
+    }
+  }
+
   
   ngOnInit(): void {
       //getAll matiere-----------------------
@@ -77,6 +122,14 @@ export class FormExamenComponent implements OnInit{
           res=> {
             this.examen=res
             this.idMat=res.matiere.id
+            this.imageService.getImageByExamen(this.examen.id).subscribe(
+              resImage=>{
+                this.examen.images=resImage
+                this.examen.images.forEach(e=>{
+                  e.imageStr = 'data:' + e.type + ';base64,' + e.image;
+                })
+              }
+            )
           },
           error=>console.error(error.message)
           
@@ -85,7 +138,7 @@ export class FormExamenComponent implements OnInit{
 
 
       //get etat------------------------
-      this.etat= this.id ? 'Modefier' : 'Ajouter';
+      this.etat= this.id ? 'Modifier' : 'Ajouter';
 
       
   }

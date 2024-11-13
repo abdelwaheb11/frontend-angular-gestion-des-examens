@@ -4,6 +4,10 @@ import Examen from '../model/model.examen';
 import { ExamenService } from '../service/examen.service';
 import {  RouterLink , ActivatedRoute } from '@angular/router';
 import { AuthiserviceService } from '../service/authiservice.service';
+import { ImageService } from '../service/image.service';
+
+
+
 
 
 
@@ -15,13 +19,14 @@ import { AuthiserviceService } from '../service/authiservice.service';
   styleUrl: './examens.component.css'
 })
 export class ExamensComponent implements OnInit {
+  imageNotFound = '/assets/image/imagenotfound.jpg';
   examens !: Examen[];
   page:number=0
   size:number=6
   totalPages!:number
   tablePages:number[]=[]
     
-  constructor(private examenservice:ExamenService , public authiservice : AuthiserviceService){}
+  constructor(private examenservice:ExamenService , public authiservice : AuthiserviceService , private imageService:ImageService){}
 
   delete(id : number,etudiant : String){
     let v = confirm("Vous avez sur de suppremer l'examen de "+etudiant)
@@ -40,13 +45,25 @@ export class ExamensComponent implements OnInit {
     this.examenservice.getAllParPage(this.page,this.size).subscribe(
       res=>{
         this.examens=res.content
+        this.examens.forEach(e=>{
+          this.imageService.getImageByExamen(e.id).subscribe(
+            resImage=>{
+              e.images=resImage
+              e.images.forEach(e=>{
+                e.imageStr = 'data:' + e.type + ';base64,' + e.image;
+              })
+            }
+          )
+        })
         this.totalPages=res.totalPages
         localStorage.setItem('nbr_pages',this.totalPages.toString()) 
         localStorage.setItem('curant_page',this.page.toString()) 
+        console.log(this.examens)
       },
       error=>console.error(error.message)
       
     )
+
   }
 
   generTabelePages(){

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "./navbar/navbar.component";
 import { AuthiserviceService } from './service/authiservice.service';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @Component({

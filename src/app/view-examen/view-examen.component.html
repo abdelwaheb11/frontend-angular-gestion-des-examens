@@ -1,0 +1,30 @@
+<div class="card examen-card shadow-lg w-50 mx-auto mt-5">
+    <div class="card-body">
+      <!-- Header de la carte avec titre -->
+      <div class="examen-header">
+        <h5 class="card-title text-primary text-center fw-bold">Examen : <span id="matiere">{{ examen.matiere.labelle | uppercase }}</span></h5>
+        <p class="card-text"><strong>Étudiant :</strong> <span id="etudiant">{{ examen.etudiant }}</span></p>
+      </div>
+  
+      <!-- Détails de l'examen -->
+      <div class="examen-details">
+        <p><strong>Date :</strong> <span id="date">{{ examen.date }}</span></p>
+        <p><strong>Note :</strong> <span id="note">{{ examen.note }}/20</span></p>
+      </div>
+  
+      <!-- Galerie d'images défilables horizontalement -->
+      <div class="examen-gallery mt-3">
+        <div class="scrollable-images" *ngIf="examen.images && examen.images.length">
+          <div class="image-item" *ngFor="let img of examen.images">
+            <img [src]="img.imageStr" (mousedown)="zoomImage(img.imageStr)" alt="Image" class="img-fluid rounded">
+          </div>
+        </div>
+        <div class="text-secondary text-center" *ngIf="examen.images.length<=0">
+            Aucune image pour cet examen.
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  
+  

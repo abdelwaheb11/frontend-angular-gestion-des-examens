@@ -9,6 +9,9 @@ import { LoginComponent } from './login/login.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { ProduitGuard } from './guard/examen.guard';
 import { LoginGuard } from './guard/login.guard';
+import { InscritComponent } from './inscrit/inscrit.component';
+import { VerifEmailComponent } from './verif-email/verif-email.component';
+import { ViewExamenComponent } from './view-examen/view-examen.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/examen', pathMatch: 'full'},
@@ -20,6 +23,7 @@ export const routes: Routes = [
     {path :'matieres',component:MatieresComponent, canActivate:[LoginGuard]},
     {path :'login',component:LoginComponent},
     {path: 'forbidden', component: ForbiddenComponent},
-
-    
+    {path: 'inscrit', component: InscritComponent},
+    { path: 'verifEmail', component: VerifEmailComponent },
+    { path: 'viewExamen/:id', component: ViewExamenComponent , canActivate:[LoginGuard]},
 ];

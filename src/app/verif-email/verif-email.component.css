@@ -1,0 +1,10 @@
+
+
+.form-group label {
+    font-weight: 600; /* Mettre l'accent sur les labels */
+}
+
+.form-control::placeholder {
+    font-style: italic; /* Placeholders en italique */
+    color: #6c757d;
+}

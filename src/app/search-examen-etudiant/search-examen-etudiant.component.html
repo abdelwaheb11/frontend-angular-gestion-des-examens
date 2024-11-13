@@ -14,7 +14,7 @@
                       <th scope="col">Date</th>
                       <th scope="col">Note</th>
                       <th scope="col">Matiere</th>
-                      <th scope="col" *ngIf="authiservice.isAdmin()">Action</th>
+                      <th scope="col" >Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -24,9 +24,10 @@
                       <td>{{e.date}}</td>
                       <td>{{e.note}}</td>
                       <td>{{e.matiere.labelle}}</td>
-                      <td *ngIf="authiservice.isAdmin()">
-                        <a routerLink="/editExamen/{{e.id}}" class="btn fw-bold text-black btn-warning me-3">edit</a>
-                        <button (click)="delete(e.id,e.etudiant)" class="btn fw-bold text-black btn-danger">delete</button>
+                      <td >
+                        <a  routerLink="/viewExamen/{{e.id}}" class="btn fw-bold text-black btn-success me-3">Consulter</a>
+                        <a *ngIf="authiservice.isAdmin()" routerLink="/editExamen/{{e.id}}" class="btn fw-bold text-black btn-warning me-3">edit</a>
+                        <button *ngIf="authiservice.isAdmin()" (click)="delete(e.id,e.etudiant)" class="btn fw-bold text-black btn-danger">delete</button>
                       </td>
                     </tr>
                   </tbody>

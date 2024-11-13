@@ -1,0 +1,23 @@
+/* Style pour la galerie d'images défilables */
+.scrollable-images {
+    display: flex; /* Utilisation de flexbox pour aligner les images horizontalement */
+    overflow-x: auto; /* Permet le défilement horizontal */
+    gap: 10px; /* Espacement entre les images */
+    padding-bottom: 10px; /* Ajoute de l'espace en bas pour la barre de défilement */
+  }
+  
+  .scrollable-images .image-item {
+    min-width: 200px; /* Largeur minimale des images */
+    max-width: 200px; /* Largeur maximale des images */
+    min-height: 200px; /* Largeur minimale des images */
+    max-height: 200px; /* Largeur maximale des images */
+    flex-shrink: 0; /* Empêche les images de se rétrécir */
+  }
+  
+  .scrollable-images img {
+    width: 150px;; /* Les images occupent toute la largeur de leur conteneur */
+    height: 200px; /* Maintient le ratio de l'image */
+  }
+
+
+  

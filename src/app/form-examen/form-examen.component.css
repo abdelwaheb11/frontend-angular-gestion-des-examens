@@ -1,0 +1,21 @@
+.box-img {
+    cursor: pointer;
+    position: relative; /* Nécessaire pour positionner le pseudo-élément */
+}
+
+.box-img:hover::after {
+    content: "Supprimer l'image";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-transform: uppercase;
+    font-weight: 700;
+    background-color: #53555869; /* Légèrement plus opaque */
+    color: #fff;
+    font-size: 18px;
+}
